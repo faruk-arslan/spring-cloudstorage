@@ -34,8 +34,8 @@ public class TestService {
     @Bean
     public void testFunction(){
         testUser();
-        //testNote();
-        testFile();
+        testNote();
+        //testFile();
         //testCredential();
     }
 
@@ -71,7 +71,8 @@ public class TestService {
         note.setUserid(currentUser.getUserid());
         System.out.println("New note ID (not added): "+note.getNoteid() + "\n");
         System.out.println("Adding test note...");
-        noteMapper.addNote(note);
+        System.out.println("ADD RETURN-->"+noteMapper.addNote(note));
+
         System.out.println("New note ID: "+note.getNoteid() + "\n");
         System.out.println("Adding test note...");
         noteMapper.addNote(note);
