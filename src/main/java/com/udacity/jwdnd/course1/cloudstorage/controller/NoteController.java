@@ -25,6 +25,7 @@ public class NoteController {
 
     @GetMapping
     public String getNotes(@ModelAttribute("note") Note note, Model model){
+
         model.addAttribute("notes",noteService.getNotes());
         return "fragments/note-list";
     }
@@ -47,7 +48,8 @@ public class NoteController {
             this.ifSucceed=true;
             this.feedbackMessage="Note has been added.";
         }
-//        attributes.addFlashAttribute("flashAttribute", "redirectWithRedirectView");
+        attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+        attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
 //        attributes.addAttribute("attribute", "redirectWithRedirectView");
         return "redirect:/home";
     }

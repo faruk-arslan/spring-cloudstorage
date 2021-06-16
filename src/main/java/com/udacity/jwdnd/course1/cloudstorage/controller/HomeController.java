@@ -18,7 +18,11 @@ public class HomeController {
     }
 
     @GetMapping
-    public String serveHomePage(@ModelAttribute("note") Note note, Model model){
+    public String serveHomePage(@ModelAttribute("note") Note note, Model model,
+                                @ModelAttribute("ifSucceeded") String ifSucceededFlash,
+                                @ModelAttribute("feedbackMessage") String feedbackMessageFlash){
+        System.out.println("Flash Attr--->"+ifSucceededFlash);
+        System.out.println("Flash Attr--->"+feedbackMessageFlash);
         model.addAttribute("notes", noteService.getNotes());
         return "home";
     }
