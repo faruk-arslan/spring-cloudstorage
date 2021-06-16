@@ -36,7 +36,7 @@ public class TestService {
         testUser();
         testNote();
         //testFile();
-        //testCredential();
+        testCredential();
     }
 
     public void testUser(){
@@ -143,7 +143,7 @@ public class TestService {
         Credential cr=new Credential();
         cr.setUrl("https://google.com");
         cr.setUsername("username_cr");
-        cr.setKey_("key");
+        cr.setkey2("key");
         cr.setPassword("password_cr");
         cr.setUserid(currentUser.getUserid());
 
@@ -158,7 +158,7 @@ public class TestService {
                 "Credential ID: " + crGetId.getCredentialid() + "\n" +
                 "URL: " + crGetId.getUrl() + "\n" +
                 "Username: " + crGetId.getUsername() + "\n" +
-                "Key: " + crGetId.getKey_() + "\n" +
+                "Key: " + crGetId.getkey2() + "\n" +
                 "Password: " + crGetId.getPassword() + "\n");
 
         // get all credentials
@@ -168,14 +168,14 @@ public class TestService {
             System.out.println("Credential ID: " + c.getCredentialid() + "\n" +
                     "URL: " + c.getUrl() + "\n" +
                     "Username: " + c.getUsername() + "\n" +
-                    "Key: " + c.getKey_() + "\n" +
+                    "Key: " + c.getkey2() + "\n" +
                     "Password: " + c.getPassword() +
                     "\n----------");
         }
         System.out.println("\n----------END----------\n");
 
         // update credential
-        crGetId.setKey_("key_changed");
+        crGetId.setkey2("key2changed");
         crGetId.setPassword("password_cr_changed");
         crGetId.setUsername("username_cr_changed");
         credentialMapper.updateCredential(2, crGetId);
@@ -187,7 +187,7 @@ public class TestService {
             System.out.println("Credential ID: " + c.getCredentialid() + "\n" +
                     "URL: " + c.getUrl() + "\n" +
                     "Username: " + c.getUsername() + "\n" +
-                    "Key: " + c.getKey_() + "\n" +
+                    "Key: " + c.getkey2() + "\n" +
                     "Password: " + c.getPassword() +
                     "\n----------");
         }
@@ -203,7 +203,7 @@ public class TestService {
             System.out.println("Credential ID: " + c.getCredentialid() + "\n" +
                     "URL: " + c.getUrl() + "\n" +
                     "Username: " + c.getUsername() + "\n" +
-                    "Key: " + c.getKey_() + "\n" +
+                    "Key: " + c.getkey2() + "\n" +
                     "Password: " + c.getPassword() +
                     "\n----------");
         }
