@@ -35,7 +35,7 @@ public class TestService {
     public void testFunction(){
         testUser();
         testNote();
-        //testFile();
+        testFile();
         testCredential();
     }
 
@@ -128,9 +128,9 @@ public class TestService {
 
     public void testFile(){
         File file = new File();
-        file.setFilename("File Name");
+        file.setFilename("My File");
         // TODO: Set the file data (BLOB).
-        file.setFilesize("1536KB");
+        file.setFilesize(1536);
         file.setContenttype(".jpg");
         file.setUserid(currentUser.getUserid());
 

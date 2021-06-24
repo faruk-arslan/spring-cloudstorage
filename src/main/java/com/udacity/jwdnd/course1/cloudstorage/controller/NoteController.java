@@ -69,6 +69,7 @@ public class NoteController {
     }
 
     @PostMapping("delete/{id}")
+    @ResponseBody
     public String deleteNote(@PathVariable int id,@ModelAttribute("note") Note note, Model model, RedirectAttributes redirectAttributes){
         int rowsDeleted=noteService.deleteNote(id);
         if (rowsDeleted<0) {
@@ -79,7 +80,8 @@ public class NoteController {
             this.ifSucceed=true;
             this.feedbackMessage="Note has been deleted.";
         }
-        return "redirect:/home";
+//        return "redirect:/home";
+        return "something";
     }
 
 }
