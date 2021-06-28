@@ -1,8 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.entity.Note;
+import com.udacity.jwdnd.course1.cloudstorage.entity.User;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.apache.ibatis.annotations.Delete;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,21 +22,23 @@ public class NoteController {
     private String feedbackMessage;
 
     private NoteService noteService;
+    private UserService userService;
 
-    public NoteController(NoteService noteService) {
+    public NoteController(NoteService noteService, UserService userService) {
         this.noteService = noteService;
+        this.userService = userService;
     }
 
     @GetMapping
-    public String getNotes(@ModelAttribute("note") Note note, Model model){
+    public String getNotes(@ModelAttribute("note") Note note, Model model, Authentication authentication){
 
-        model.addAttribute("notes",noteService.getNotes());
+        model.addAttribute("notes",noteService.getNotes(userService.getUser(authentication.getName()).getUserid()));
         return "fragments/note-list";
     }
 
     @PostMapping("add")
-    public String addNote(@ModelAttribute("note") Note note, Model model, RedirectAttributes attributes){
-        note.setUserid(1);
+    public String addNote(@ModelAttribute("note") Note note, Model model, RedirectAttributes attributes, Authentication authentication){
+        note.setUserid(userService.getUser(authentication.getName()).getUserid());
         // Check if the title/description is empty before calling the service.
         if (note.getNotedescription()==null){
             this.ifSucceed=false;

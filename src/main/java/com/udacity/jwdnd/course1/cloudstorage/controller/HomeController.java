@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-    private final NoteService noteService;
-
-    public HomeController(NoteService noteService) {
-        this.noteService = noteService;
-    }
 
     @GetMapping
     public String serveHomePage(@ModelAttribute("note") Note note, Model model,
@@ -25,7 +20,6 @@ public class HomeController {
                                 @ModelAttribute("feedbackMessage") String feedbackMessageFlash){
         System.out.println("Flash Attr--->"+ifSucceededFlash);
         System.out.println("Flash Attr--->"+feedbackMessageFlash);
-        model.addAttribute("notes", noteService.getNotes());
 
         return "home";
     }

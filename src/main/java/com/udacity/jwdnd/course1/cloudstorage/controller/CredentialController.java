@@ -1,9 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.entity.Credential;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.boot.Banner;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,24 +21,26 @@ public class CredentialController {
 
     private CredentialService credentialService;
     private EncryptionService encryptionService;
+    private UserService userService;
 
-    public CredentialController(CredentialService credentialService, EncryptionService encryptionService) {
+    public CredentialController(CredentialService credentialService, EncryptionService encryptionService, UserService userService) {
         this.credentialService = credentialService;
         this.encryptionService = encryptionService;
+        this.userService = userService;
     }
 
     @GetMapping
     public String getCredentials(@ModelAttribute("credential")Credential credential,
-                                 Model model){
-        model.addAttribute("credentials",credentialService.getCredentials());
+                                 Model model, Authentication authentication){
+        model.addAttribute("credentials",credentialService.getCredentials(userService.getUser(authentication.getName()).getUserid()));
         return "fragments/credential-list";
     }
 
     @PostMapping("add")
     public String addCredential(@ModelAttribute("credential") Credential credential,
-                                Model model, RedirectAttributes attributes){
+                                Model model, RedirectAttributes attributes, Authentication authentication){
         // TODO: Insert the correct user id after authentication.
-        credential.setUserid(1);
+        credential.setUserid(userService.getUser(authentication.getName()).getUserid());
         int rowsAdded=credentialService.addNewCredential(credential);
         if (rowsAdded<0) {
             this.ifSucceed=false;

@@ -16,8 +16,8 @@ public interface FileMapper {
     @Select("SELECT * FROM FILES WHERE fileid=#{id}")
     File getFileById(int id);
 
-    @Select("SELECT * FROM FILES")
-    List<File> getFiles();
+    @Select("SELECT * FROM FILES WHERE userid=#{userId}")
+    List<File> getFiles(int userId);
 
     @Delete("DELETE FROM FILES WHERE fileid=#{id}")
     int deleteFile(int id);

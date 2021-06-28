@@ -21,8 +21,8 @@ public class FileService {
     public File getFile(int id){
         return fileMapper.getFileById(id);
     }
-    public List<File> getFiles(){
-        return fileMapper.getFiles();
+    public List<File> getFiles(int userId){
+        return fileMapper.getFiles(userId);
     }
     // TODO: Implement update in mapper and here
     public int deleteFile(int id){
