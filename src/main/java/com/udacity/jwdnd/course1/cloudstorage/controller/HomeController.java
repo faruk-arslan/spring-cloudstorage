@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/home")
 public class HomeController {
 
-    @GetMapping
+    @GetMapping("/home")
     public String serveHomePage(@ModelAttribute("note") Note note, Model model,
                                 @ModelAttribute("credential") Credential credential,
                                 @ModelAttribute("ifSucceeded") String ifSucceededFlash,
