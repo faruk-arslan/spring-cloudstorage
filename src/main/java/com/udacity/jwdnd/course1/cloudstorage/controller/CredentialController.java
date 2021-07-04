@@ -59,6 +59,7 @@ public class CredentialController {
     @PostMapping("edit/{id}")
     public String editCredential(@PathVariable int id,
                                  @ModelAttribute("credential") Credential credential,
+                                 RedirectAttributes attributes,
                                  Model model){
         int rowsUpdated=credentialService.updateCredential(id, credential);
         if(rowsUpdated<0){
@@ -69,6 +70,8 @@ public class CredentialController {
             this.ifSucceed=true;
             this.feedbackMessage="Credential has been updated.";
         }
+        attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+        attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
         return "redirect:/home";
     }
 
@@ -86,6 +89,12 @@ public class CredentialController {
             this.feedbackMessage="Credential has been deleted.";
         }
         return "redirect:/home";
+    }
+
+    @GetMapping("/get/pass/{id}")
+    @ResponseBody
+    public String getPlainPass(@PathVariable int id){
+        return credentialService.getPlainPass(id);
     }
 
 }

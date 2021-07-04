@@ -10,11 +10,20 @@
     </head>
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
+            <div class="alert alert alert-success alert-dismissible fade show" role="alert" th:if="${feedbackMessage.length()!=0 and ifSucceeded}" th:inline="text">
+                [[${feedbackMessage}]]
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+            <div class="alert alert alert-danger alert-dismissible fade show" role="alert" th:if="${feedbackMessage.length()!=0 and !ifSucceeded}" th:inline="text">
+                [[${feedbackMessage}]]
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
             <div id="logoutDiv">
                 <form action="#" th:action="@{/logout}" method="POST">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
+
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -47,9 +56,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
-                            + Add a New Note
-                        </button>
+                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">+ Add a New Note</button>
 
                         <!--insert notes fragment if needed-->
                         <div id="resultsNote"></div>
@@ -87,9 +94,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
-                            + Add a New Credential
-                        </button>
+                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">+ Add a New Credential</button>
 
                         <div id="resultsCredential"></div>
 
@@ -121,8 +126,8 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="sendCredentialData()">Save changes</button>
+                                        <button id="closeBtnCredentialModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button id="saveBtnCredentialModal" type="button" class="btn btn-primary" onclick="sendCredentialData()">Save changes</button>
                                     </div>
                                 </div>
                             </div>
@@ -150,11 +155,34 @@
 
             // For opening the credentials modal
             function showCredentialModal(credentialId, url, username, password) {
+
+
                 $('#credential-id').val(credentialId ? credentialId : '');
                 $('#credential-url').val(url ? url : '');
                 $('#credential-username').val(username ? username : '');
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
+
+                if(credentialId){
+                    let url='/credentials/get/pass/'+credentialId;
+                    $("#credential-password").load(url);
+
+                    var jqxhr = $.get('/credentials/get/pass/'+credentialId , function(data) {
+                    console.log(data);
+                    document.getElementById("credential-password").value = data;
+                  })
+                    .done(function() {
+<!--                        alert( "second success" );-->
+                    })
+                    .fail(function() {
+<!--                        alert( "error" );-->
+                    })
+                    .always(function() {
+<!--                        alert( "finished" );-->
+                    });
+
+                }
+
             }
 
             // Load files section on page load
@@ -188,13 +216,13 @@
                     window.location.replace("/home");
                   })
                     .done(function() {
-                        alert( "second success" );
+<!--                        alert( "second success" );-->
                     })
                     .fail(function() {
-                        alert( "error" );
+<!--                        alert( "error" );-->
                     })
                     .always(function() {
-                        alert( "finished" );
+<!--                        alert( "finished" );-->
                     });
             }
 
@@ -219,13 +247,13 @@
                     window.location.replace("/home");
                   })
                     .done(function() {
-                        alert( "second success" );
+<!--                        alert( "second success" );-->
                     })
                     .fail(function() {
-                        alert( "error" );
+<!--                        alert( "error" );-->
                     })
                     .always(function() {
-                        alert( "finished" );
+<!--                        alert( "finished" );-->
                     });
             }
         </script>

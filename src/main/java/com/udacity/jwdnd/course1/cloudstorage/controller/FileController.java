@@ -24,6 +24,9 @@ import java.io.IOException;
 @RequestMapping("/files")
 public class FileController {
 
+    private boolean ifSucceed;
+    private String feedbackMessage;
+
     private FileService fileService;
     private UserService userService;
 
@@ -39,8 +42,15 @@ public class FileController {
     }
 
     @PostMapping
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile file, RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
+    public String uploadFile(@RequestParam("fileUpload") MultipartFile file, RedirectAttributes attributes, Authentication authentication) throws IOException {
         System.out.println(file.getSize());
+        if(file.isEmpty()){
+            this.ifSucceed=false;
+            this.feedbackMessage="No file has been chosen.";
+            attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+            attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
+            return "redirect:/home";
+        }
         // Create file object.
         File newFile=new File();
         newFile.setUserid(userService.getUser(authentication.getName()).getUserid());
@@ -49,7 +59,17 @@ public class FileController {
         newFile.setContenttype(file.getContentType());
         newFile.setFiledata(file.getBytes());
         // Add file via FileService.
-        fileService.addNewFile(newFile);
+        int rowsAdded=fileService.addNewFile(newFile);
+        if (rowsAdded<0) {
+            this.ifSucceed=false;
+            this.feedbackMessage="Something went wrong when adding the file.";
+        }
+        else {
+            this.ifSucceed=true;
+            this.feedbackMessage="File has been added.";
+        }
+        attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+        attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
         return "redirect:/home";
     }
 

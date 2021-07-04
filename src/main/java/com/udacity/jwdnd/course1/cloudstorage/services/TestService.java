@@ -1,68 +1,79 @@
-//package com.udacity.jwdnd.course1.cloudstorage.services;
-//
-//import com.udacity.jwdnd.course1.cloudstorage.entity.Credential;
-//import com.udacity.jwdnd.course1.cloudstorage.entity.File;
-//import com.udacity.jwdnd.course1.cloudstorage.entity.Note;
-//import com.udacity.jwdnd.course1.cloudstorage.entity.User;
-//import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
-//import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
-//import com.udacity.jwdnd.course1.cloudstorage.mapper.NoteMapper;
-//import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
-//import org.apache.ibatis.logging.Log;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.stereotype.Service;
-//
-//import java.sql.Statement;
-//import java.util.List;
-//
-//@Service
-//public class TestService {
-//    private UserMapper userMapper;
-//    private NoteMapper noteMapper;
-//    private FileMapper fileMapper;
-//    private CredentialMapper credentialMapper;
-//    private User currentUser;
-//
-//    public TestService(UserMapper userMapper, NoteMapper noteMapper, FileMapper fileMapper,
-//                       CredentialMapper credentialMapper) {
-//        this.userMapper = userMapper;
-//        this.noteMapper=noteMapper;
-//        this.fileMapper=fileMapper;
-//        this.credentialMapper=credentialMapper;
-//    }
-//
-//    @Bean
-//    public void testFunction(){
+package com.udacity.jwdnd.course1.cloudstorage.services;
+
+import com.udacity.jwdnd.course1.cloudstorage.entity.Credential;
+import com.udacity.jwdnd.course1.cloudstorage.entity.File;
+import com.udacity.jwdnd.course1.cloudstorage.entity.Note;
+import com.udacity.jwdnd.course1.cloudstorage.entity.User;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.NoteMapper;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
+import org.apache.ibatis.logging.Log;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+
+import java.sql.Statement;
+import java.util.List;
+
+@Service
+public class TestService {
+    private UserMapper userMapper;
+    private NoteMapper noteMapper;
+    private FileMapper fileMapper;
+    private CredentialMapper credentialMapper;
+    private User currentUser;
+    private UserService userService;
+
+    public TestService(UserMapper userMapper, NoteMapper noteMapper, FileMapper fileMapper, CredentialMapper credentialMapper, UserService userService) {
+        this.userMapper = userMapper;
+        this.noteMapper = noteMapper;
+        this.fileMapper = fileMapper;
+        this.credentialMapper = credentialMapper;
+        this.userService = userService;
+    }
+
+    @Bean
+    public void testFunction(){
 //        testUser();
 //        testNote();
 //        testFile();
 //        testCredential();
-//    }
-//
-//    public void testUser(){
-//        // create a user to test db
-//        User user=new User();
-//        user.setUsername("username");
-//        user.setFirstname("firstname");
-//        user.setLastname("lastname");
-//        user.setPassword("encrypted-password");
-//        user.setSalt("salt");
-//        System.out.println("\nAdding test user...");
-//        userMapper.addUser(user);
-//        // get user
-//        User userGet;
-//        System.out.println("Getting user...");
-//        userGet=userMapper.getUser("username");
-//        System.out.println("\n----------Get user----------\n" +
-//                "Username: " + userGet.getUsername() + "\n" +
-//                "Firstname: " + userGet.getFirstname() + "\n" +
-//                "Lastname: " + userGet.getLastname() + "\n" +
-//                "Password: " + userGet.getPassword() + "\n" +
-//                "Salt: " + userGet.getSalt() + "\n");
-//        // assign current user to use in another functions
-//        this.currentUser=userGet;
-//    }
-//
+        createUser();
+    }
+
+    public void createUser(){
+        User user=new User();
+        user.setUsername("un");
+        user.setFirstname("firstname");
+        user.setLastname("lastname");
+        user.setPassword("1");
+        userService.createUser(user);
+    }
+
+    public void testUser(){
+        // create a user to test db
+        User user=new User();
+        user.setUsername("username");
+        user.setFirstname("firstname");
+        user.setLastname("lastname");
+        user.setPassword("encrypted-password");
+        user.setSalt("salt");
+        System.out.println("\nAdding test user...");
+        userMapper.addUser(user);
+        // get user
+        User userGet;
+        System.out.println("Getting user...");
+        userGet=userMapper.getUser("username");
+        System.out.println("\n----------Get user----------\n" +
+                "Username: " + userGet.getUsername() + "\n" +
+                "Firstname: " + userGet.getFirstname() + "\n" +
+                "Lastname: " + userGet.getLastname() + "\n" +
+                "Password: " + userGet.getPassword() + "\n" +
+                "Salt: " + userGet.getSalt() + "\n");
+        // assign current user to use in another functions
+        this.currentUser=userGet;
+    }
+
 //    public void testNote(){
 //        // create a note for test
 //        Note note=new Note();
@@ -209,5 +220,5 @@
 //        }
 //        System.out.println("\n----------END----------\n");
 //    }
-//
-//}
+
+}

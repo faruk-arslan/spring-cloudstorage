@@ -56,12 +56,11 @@ public class NoteController {
         }
         attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
         attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
-//        attributes.addAttribute("attribute", "redirectWithRedirectView");
         return "redirect:/home";
     }
 
     @PostMapping("edit/{id}")
-    public String editNote(@PathVariable int id,@ModelAttribute("note") Note note, Model model){
+    public String editNote(@PathVariable int id,@ModelAttribute("note") Note note,RedirectAttributes attributes, Model model){
         int rowsUpdated=noteService.updateNote(id, note);
         if (rowsUpdated<0) {
             this.ifSucceed=false;
@@ -71,6 +70,8 @@ public class NoteController {
             this.ifSucceed=true;
             this.feedbackMessage="Note has been updated.";
         }
+        attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+        attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
         return "redirect:/home";
     }
 
