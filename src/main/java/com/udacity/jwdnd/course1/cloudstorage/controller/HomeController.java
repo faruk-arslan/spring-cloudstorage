@@ -17,14 +17,9 @@ public class HomeController {
                                 @ModelAttribute("credential") Credential credential,
                                 @ModelAttribute("ifSucceeded") String ifSucceededFlash,
                                 @ModelAttribute("feedbackMessage") String feedbackMessageFlash){
-        System.out.println("Flash Attr--->"+ifSucceededFlash);
-        System.out.println("Flash Attr--->"+feedbackMessageFlash);
+//        System.out.println("Flash Attr--->"+ifSucceededFlash);
+//        System.out.println("Flash Attr--->"+feedbackMessageFlash);
 
         return "home";
     }
-
-//    @GetMapping
-//    public String getHomePage(){
-//        return "home";
-//    }
 }

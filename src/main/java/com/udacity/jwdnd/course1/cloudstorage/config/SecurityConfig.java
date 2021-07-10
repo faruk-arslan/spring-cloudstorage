@@ -24,17 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // To enable POST requests.
+        // To enable POST requests
         http.cors().and().csrf().disable();
-        // To enable H2 console.
+        // To enable H2 console
         http.headers().frameOptions().sameOrigin();
         // Other
         http.authorizeRequests()
-                .antMatchers("/signup","/css/**","/js/**").permitAll()
+                .antMatchers("/signup","/login","/css/**","/js/**").permitAll()
                 .anyRequest().authenticated();
         http.formLogin().loginPage("/login").permitAll();
         http.formLogin().defaultSuccessUrl("/home",true);
-        // logout
+        // Logout handler
         http.logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)

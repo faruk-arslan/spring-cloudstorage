@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.entity.File;
+import com.udacity.jwdnd.course1.cloudstorage.entity.Note;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
@@ -21,6 +22,7 @@ import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 
 @Controller
+@CrossOrigin(maxAge = 3600)
 @RequestMapping("/files")
 public class FileController {
 
@@ -82,5 +84,20 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(  file.getContenttype() ))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(new ByteArrayResource(file.getFiledata()));
+    }
+
+    @PostMapping("delete/{id}")
+    public String deleteFile(@PathVariable int id, @ModelAttribute("note") Note note, Model model, RedirectAttributes redirectAttributes){
+        int rowsDeleted=fileService.deleteFile(id);
+        if (rowsDeleted<0) {
+            this.ifSucceed=false;
+            this.feedbackMessage="Something went wrong when deleting the file.";
+        }
+        else {
+            this.ifSucceed=true;
+            this.feedbackMessage="File has been deleted.";
+        }
+//        return "redirect:/home";
+        return "something";
     }
 }

@@ -12,11 +12,19 @@
         <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
             <h1 class="display-5">Login</h1>
             <form action="#" th:action="@{/login}" method="POST">
-                <div class="alert alert-danger">
-                    Invalid username or password
+                <div class="alert alert-dark" th:if="${param.logout}">
+                    You have been logged out.
                 </div>
-                <div class="alert alert-dark">
-                    You have been logged out
+                <div class="alert alert-danger" th:if="${param.error}">
+                    Please check you username and password. If you don't have an account, please Sign Up.
+                </div>
+                <div class="alert alert alert-success alert-dismissible fade show" role="alert" th:if="${feedbackMessage.length()!=0 and ifSucceeded}" th:inline="text">
+                    [[${feedbackMessage}]]
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+                <div class="alert alert alert-danger alert-dismissible fade show" role="alert" th:if="${feedbackMessage.length()!=0 and !ifSucceeded}" th:inline="text">
+                    [[${feedbackMessage}]]
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
                 </div>
                 <div class="form-group">
                     <label for="inputUsername">Username</label>

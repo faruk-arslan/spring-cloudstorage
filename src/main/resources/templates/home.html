@@ -256,6 +256,22 @@
 <!--                        alert( "finished" );-->
                     });
             }
+
+            // Delete file
+            function deleteFile(fileId){
+                var jqxhr = $.post( "/files/delete/"+fileId , function(data) {
+                    window.location.replace("/home");
+                  })
+                    .done(function() {
+<!--                        alert( "second success" );-->
+                    })
+                    .fail(function() {
+<!--                        alert( "error" );-->
+                    })
+                    .always(function() {
+<!--                        alert( "finished" );-->
+                    });
+            }
         </script>
     </body>
 </html>
