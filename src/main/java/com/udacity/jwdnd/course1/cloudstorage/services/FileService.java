@@ -21,6 +21,9 @@ public class FileService {
     public File getFile(int id){
         return fileMapper.getFileById(id);
     }
+    public File getFileByName(String fileName) {
+        return fileMapper.getFileByName(fileName);
+    }
     public List<File> getFiles(int userId){
         return fileMapper.getFiles(userId);
     }

@@ -64,6 +64,14 @@ public class FileController {
             return "redirect:/home";
         }
 
+        if(!isFileNameAvailable(file.getOriginalFilename())){
+            this.ifSucceed=false;
+            this.feedbackMessage="File name already exist.";
+            attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+            attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
+            return "redirect:/home";
+        }
+
         // Create file object.
         File newFile=new File();
         newFile.setUserid(userService.getUser(authentication.getName()).getUserid());
@@ -110,5 +118,13 @@ public class FileController {
         }
 //        return "redirect:/home";
         return "something";
+    }
+
+    private boolean isFileNameAvailable(String fileName){
+        if(fileService.getFileByName(fileName)==null){
+            return true;
+        } else{
+            return false;
+        }
     }
 }
