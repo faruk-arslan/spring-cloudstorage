@@ -28,6 +28,8 @@ public class FileController {
 
     private boolean ifSucceed;
     private String feedbackMessage;
+    // 5Mb limit for the file upload
+    private final long fileSizeLimit=5000000;
 
     private FileService fileService;
     private UserService userService;
@@ -53,6 +55,15 @@ public class FileController {
             attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
             return "redirect:/home";
         }
+        System.out.println("File size: "+file.getSize());
+        if(file.getSize()>fileSizeLimit){
+            this.ifSucceed=false;
+            this.feedbackMessage="File size is larger than "+fileSizeLimit+"KB";
+            attributes.addFlashAttribute("ifSucceeded", this.ifSucceed);
+            attributes.addFlashAttribute("feedbackMessage", this.feedbackMessage);
+            return "redirect:/home";
+        }
+
         // Create file object.
         File newFile=new File();
         newFile.setUserid(userService.getUser(authentication.getName()).getUserid());
